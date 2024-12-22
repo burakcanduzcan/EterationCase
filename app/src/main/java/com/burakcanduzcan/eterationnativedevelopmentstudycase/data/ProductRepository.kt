@@ -13,6 +13,9 @@ class ProductRepository @Inject constructor(
 
     suspend fun getAllBasketProducts() = basketProductLocalDataSource.getAll()
 
+    suspend fun getBasketProductFromId(id: Int) =
+        basketProductLocalDataSource.getBasketProductFromId(id)
+
     suspend fun insertBasketProduct(basketProductEntity: BasketProductEntity) =
         basketProductLocalDataSource.insert(basketProductEntity)
 

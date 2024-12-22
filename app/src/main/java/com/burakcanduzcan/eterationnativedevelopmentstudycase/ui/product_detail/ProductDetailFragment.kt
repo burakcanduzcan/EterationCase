@@ -1,11 +1,16 @@
 package com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.product_detail
 
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.core.BaseFragment
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.databinding.FragmentProductDetailBinding
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class ProductDetailFragment :
@@ -35,7 +40,16 @@ class ProductDetailFragment :
                 binding.tvPrice.text = product.price.removeSuffix(".00") + " ₺"
 
                 binding.btnAddToCart.setOnClickListener {
-                    viewModel.addToCart(product)
+                    lifecycleScope.launch(Dispatchers.Default) {
+                        viewModel.addToCart(product)
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(
+                                this@ProductDetailFragment.context,
+                                "Product added to basket!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 }
             }
         }
