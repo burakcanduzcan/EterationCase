@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Eteration Native Development Study Case</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">E-Market</string>
+    <string name="title_basket">Basket</string>
+    <string name="price_with_colon">Price:</string>
+    <string name="filters_with_colon">Filters:</string>
+    <string name="select_filter">Select Filter</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="no_items_available">No items available</string>
 </resources>

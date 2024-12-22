@@ -1,42 +1,44 @@
 package com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.home
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.core.BaseFragment
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.databinding.FragmentHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
-class HomeFragment : Fragment() {
+@AndroidEntryPoint
+class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
-    private var _binding: FragmentHomeBinding? = null
+    override val viewModel: HomeViewModel by viewModels()
+    private lateinit var productAdapter: ProductAdapter
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+    override fun initUi() {
+        productAdapter = ProductAdapter()
+        binding.rvProducts.apply {
+            layoutManager = GridLayoutManager(requireContext(), 2)
+            adapter = productAdapter
         }
-        return root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun initListeners() {
+    }
+
+    override fun initObservables() {
+        viewModel.products.observe(viewLifecycleOwner) { products ->
+            Timber.d("Products: $products")
+            productAdapter.submitList(products)
+        }
+
+        viewModel.isRemoteListEmpty.observe(viewLifecycleOwner) { isEmpty ->
+            if (isEmpty) {
+                binding.rvProducts.visibility = View.GONE
+                binding.tvEmptyState.visibility = View.VISIBLE
+            } else {
+                binding.rvProducts.visibility = View.VISIBLE
+                binding.tvEmptyState.visibility = View.GONE
+            }
+        }
     }
 }
