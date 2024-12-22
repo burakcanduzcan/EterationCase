@@ -2,7 +2,9 @@ package com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.home
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.R
@@ -10,6 +12,9 @@ import com.burakcanduzcan.eterationnativedevelopmentstudycase.core.BaseFragment
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.databinding.FragmentHomeBinding
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.model.ProductUiModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -31,7 +36,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 )
             },
             onAddToCartClicked = { product: ProductUiModel ->
-                viewModel.addToCart(product)
+                lifecycleScope.launch(Dispatchers.Default) {
+                    viewModel.addToCart(product)
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            this@HomeFragment.context,
+                            "Product added to basket!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
         )
         binding.rvProducts.apply {

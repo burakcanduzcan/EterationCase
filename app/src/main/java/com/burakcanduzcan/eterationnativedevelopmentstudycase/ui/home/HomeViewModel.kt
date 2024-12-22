@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.ProductRepository
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.model.ProductUiModel
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.util.Mappers.toBasketProductEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -45,6 +46,17 @@ class HomeViewModel @Inject constructor(
             } catch (e: Exception) {
                 Timber.e(e, "Error fetching products")
                 _isRemoteListEmpty.postValue(true)
+            }
+        }
+    }
+
+    suspend fun addToCart(product: ProductUiModel) {
+        productRepository.getBasketProductFromId(product.id).let {
+            Timber.d("getBasketProductFromId result: $it")
+            if (it != null) {
+                productRepository.updateBasketProduct(it.copy(basketQuantity = it.basketQuantity + 1))
+            } else {
+                productRepository.insertBasketProduct(product.toBasketProductEntity(1))
             }
         }
     }
