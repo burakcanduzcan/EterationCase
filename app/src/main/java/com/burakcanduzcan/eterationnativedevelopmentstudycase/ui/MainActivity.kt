@@ -28,6 +28,13 @@ class MainActivity : AppCompatActivity() {
         setupNavigationComponent(navController)
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment_activity_main)!!
+            .findNavController()
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
     private fun setupAppBar(navController: NavController) {
         val appBarConfiguration = AppBarConfiguration(
             setOf(R.id.navigation_home, R.id.navigation_basket)
