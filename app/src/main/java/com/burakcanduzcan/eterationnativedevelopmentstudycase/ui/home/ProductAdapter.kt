@@ -9,7 +9,10 @@ import com.bumptech.glide.Glide
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.databinding.ItemProductBinding
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.model.ProductUiModel
 
-class ProductAdapter : ListAdapter<ProductUiModel, ProductAdapter.ProductViewHolder>(DiffCallback) {
+class ProductAdapter(
+    private val onProductClicked: (ProductUiModel) -> Unit,
+    private val onAddToCartClicked: (ProductUiModel) -> Unit
+) : ListAdapter<ProductUiModel, ProductAdapter.ProductViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val binding = ItemProductBinding.inflate(
@@ -27,12 +30,18 @@ class ProductAdapter : ListAdapter<ProductUiModel, ProductAdapter.ProductViewHol
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(uiModel: ProductUiModel) {
+            binding.clProduct.setOnClickListener {
+                onProductClicked(uiModel)
+            }
+
             binding.tvProductName.text = uiModel.name
             binding.tvProductPrice.text = uiModel.price
             Glide.with(binding.ivProductImage.context)
                 .load(uiModel.imageUrl)
                 .into(binding.ivProductImage)
+
             binding.btnAddToCart.setOnClickListener {
+                onAddToCartClicked(uiModel)
             }
         }
     }
