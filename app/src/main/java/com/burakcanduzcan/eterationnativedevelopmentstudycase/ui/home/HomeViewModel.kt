@@ -25,7 +25,7 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             try {
-                productRepository.getProducts().body().let {
+                productRepository.fetchProducts().body().let {
                     Timber.d("Received body: $it")
                     if (it.isNullOrEmpty()) {
                         _isRemoteListEmpty.postValue(true)

@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface MockApiService {
     @GET("/products")
-    suspend fun getProducts(): Response<List<ProductResponseModel>>
+    suspend fun fetchProducts(): Response<List<ProductResponseModel>>
 }

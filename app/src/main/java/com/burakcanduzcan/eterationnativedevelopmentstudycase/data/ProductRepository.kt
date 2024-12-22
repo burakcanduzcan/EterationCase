@@ -9,7 +9,7 @@ class ProductRepository @Inject constructor(
     private val productRemoteDataSource: ProductRemoteDataSource,
     private val basketProductLocalDataSource: BasketProductLocalDataSource
 ) {
-    suspend fun getProducts() = productRemoteDataSource.getProducts()
+    suspend fun fetchProducts() = productRemoteDataSource.fetchProducts()
 
     suspend fun getAllBasketProducts() = basketProductLocalDataSource.getAll()
 

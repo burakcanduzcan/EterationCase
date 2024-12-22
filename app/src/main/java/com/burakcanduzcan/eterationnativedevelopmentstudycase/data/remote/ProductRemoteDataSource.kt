@@ -4,7 +4,7 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class ProductRemoteDataSource @Inject constructor(private val mockApiService: MockApiService) {
-    suspend fun getProducts(): Response<List<ProductResponseModel>> {
-        return mockApiService.getProducts()
+    suspend fun fetchProducts(): Response<List<ProductResponseModel>> {
+        return mockApiService.fetchProducts()
     }
 }
