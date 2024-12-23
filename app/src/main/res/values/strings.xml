@@ -11,4 +11,6 @@
     <string name="plus_symbol">+</string>
     <string name="complete">Complete\n</string>
     <string name="basket_is_empty">Basket is empty</string>
+    <string name="product_image">Product image</string>
+    <string name="favorite_button">Favorite button</string>
 </resources>
