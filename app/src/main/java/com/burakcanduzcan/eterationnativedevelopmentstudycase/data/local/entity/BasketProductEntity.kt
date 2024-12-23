@@ -1,4 +1,4 @@
-package com.burakcanduzcan.eterationnativedevelopmentstudycase.data.local
+package com.burakcanduzcan.eterationnativedevelopmentstudycase.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

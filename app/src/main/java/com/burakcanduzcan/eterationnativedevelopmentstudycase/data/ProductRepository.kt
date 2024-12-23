@@ -1,16 +1,20 @@
 package com.burakcanduzcan.eterationnativedevelopmentstudycase.data
 
-import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.local.BasketProductEntity
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.local.entity.BasketProductEntity
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.local.BasketProductLocalDataSource
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.local.FavoriteProductLocalDataSource
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.local.entity.FavoriteProductEntity
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.remote.ProductRemoteDataSource
 import javax.inject.Inject
 
 class ProductRepository @Inject constructor(
     private val productRemoteDataSource: ProductRemoteDataSource,
-    private val basketProductLocalDataSource: BasketProductLocalDataSource
+    private val basketProductLocalDataSource: BasketProductLocalDataSource,
+    private val favoriteProductLocalDataSource: FavoriteProductLocalDataSource
 ) {
     suspend fun fetchProducts() = productRemoteDataSource.fetchProducts()
 
+    //region basketProductLocalDataSource
     fun getBasketProductsLiveData() = basketProductLocalDataSource.getBasketProductsLiveData()
 
     suspend fun getBasketProductFromId(id: Int) =
@@ -26,4 +30,18 @@ class ProductRepository @Inject constructor(
 
     suspend fun deleteBasketProduct(basketProductEntity: BasketProductEntity) =
         basketProductLocalDataSource.delete(basketProductEntity)
+    //endregion
+
+    //region favoriteProductLocalDataSource
+    fun getFavoriteProductsLiveData() = favoriteProductLocalDataSource.getFavoriteProductsLiveData()
+
+    suspend fun getFavoriteProductFromId(id: Int) =
+        favoriteProductLocalDataSource.getFavoriteProductFromId(id)
+
+    suspend fun insertFavoriteProduct(favoriteProductEntity: FavoriteProductEntity) =
+        favoriteProductLocalDataSource.insert(favoriteProductEntity)
+
+    suspend fun deleteFavoriteProduct(favoriteProductEntity: FavoriteProductEntity) =
+        favoriteProductLocalDataSource.delete(favoriteProductEntity)
+    //endregion
 }

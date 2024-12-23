@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.ProductRepository
-import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.local.BasketProductEntity
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.local.entity.BasketProductEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

@@ -1,8 +1,12 @@
 package com.burakcanduzcan.eterationnativedevelopmentstudycase.data.local
 
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.local.dao.BasketProductDao
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.local.entity.BasketProductEntity
 import javax.inject.Inject
 
-class BasketProductLocalDataSource @Inject constructor(private val basketProductDao: BasketProductDao) {
+class BasketProductLocalDataSource @Inject constructor(
+    private val basketProductDao: BasketProductDao
+) {
     fun getBasketProductsLiveData() = basketProductDao.getBasketProductsLiveData()
 
     suspend fun getBasketProductFromId(id: Int) = basketProductDao.getBasketProductFromId(id)

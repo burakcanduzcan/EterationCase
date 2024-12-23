@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.local.BasketProductEntity
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.local.entity.BasketProductEntity
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.databinding.ItemBasketBinding
 
 class BasketAdapter(

@@ -26,4 +26,8 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun provideBasketProductDao(appDatabase: AppDatabase) = appDatabase.basketProductDao()
+
+    @Singleton
+    @Provides
+    fun provideFavoriteProductDao(appDatabase: AppDatabase) = appDatabase.favoriteProductDao()
 }
