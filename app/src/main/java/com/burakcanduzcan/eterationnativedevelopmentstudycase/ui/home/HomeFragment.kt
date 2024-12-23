@@ -28,20 +28,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     override fun initUi() {
         productAdapter = ProductAdapter(
             onProductClicked = { product: ProductUiModel ->
-                Timber.d("Product clicked: $product")
+                safeClick {
+                    Timber.d("Product clicked: $product")
 
-                findNavController().navigate(
-                    R.id.action_navigation_home_to_navigation_product_detail,
-                    Bundle().apply {
-                        putParcelable("product", product)
-                    }
-                )
+                    findNavController().navigate(
+                        R.id.action_navigation_home_to_navigation_product_detail,
+                        Bundle().apply {
+                            putParcelable("product", product)
+                        }
+                    )
+                }
             },
             onAddToCartClicked = { product: ProductUiModel ->
-                lifecycleScope.launch(Dispatchers.Default) {
-                    viewModel.addToCart(product)
-                    withContext(Dispatchers.Main) {
-                        sharedViewModel.updateBasketCount(1)
+                safeClick {
+                    lifecycleScope.launch(Dispatchers.Default) {
+                        viewModel.addToCart(product)
+                        withContext(Dispatchers.Main) {
+                            sharedViewModel.updateBasketCount(1)
+                        }
                     }
                 }
             }

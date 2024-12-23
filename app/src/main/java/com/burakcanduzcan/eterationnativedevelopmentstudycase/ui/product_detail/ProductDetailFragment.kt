@@ -42,10 +42,12 @@ class ProductDetailFragment :
                 binding.tvPrice.text = product.price.removeSuffix(".00") + " ₺"
 
                 binding.btnAddToCart.setOnClickListener {
-                    lifecycleScope.launch(Dispatchers.Default) {
-                        viewModel.addToCart(product)
-                        withContext(Dispatchers.Main) {
-                            sharedViewModel.updateBasketCount(1)
+                    safeClick {
+                        lifecycleScope.launch(Dispatchers.Default) {
+                            viewModel.addToCart(product)
+                            withContext(Dispatchers.Main) {
+                                sharedViewModel.updateBasketCount(1)
+                            }
                         }
                     }
                 }

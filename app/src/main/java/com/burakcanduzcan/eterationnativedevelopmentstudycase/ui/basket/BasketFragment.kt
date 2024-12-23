@@ -28,18 +28,22 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
 
         basketAdapter = BasketAdapter(
             onProductAddClicked = {
-                lifecycleScope.launch(Dispatchers.Default) {
-                    viewModel.addToCart(it)
-                    withContext(Dispatchers.Main) {
-                        sharedViewModel.updateBasketCount(1)
+                safeClick {
+                    lifecycleScope.launch(Dispatchers.Default) {
+                        viewModel.addToCart(it)
+                        withContext(Dispatchers.Main) {
+                            sharedViewModel.updateBasketCount(1)
+                        }
                     }
                 }
             },
             onProductRemoveClicked = {
-                lifecycleScope.launch(Dispatchers.Default) {
-                    viewModel.removeFromCart(it)
-                    withContext(Dispatchers.Main) {
-                        sharedViewModel.updateBasketCount(-1)
+                safeClick {
+                    lifecycleScope.launch(Dispatchers.Default) {
+                        viewModel.removeFromCart(it)
+                        withContext(Dispatchers.Main) {
+                            sharedViewModel.updateBasketCount(-1)
+                        }
                     }
                 }
             })
