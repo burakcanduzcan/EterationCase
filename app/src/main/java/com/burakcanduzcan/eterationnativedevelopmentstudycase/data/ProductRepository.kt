@@ -33,7 +33,7 @@ class ProductRepository @Inject constructor(
     //endregion
 
     //region favoriteProductLocalDataSource
-    fun getFavoriteProductsLiveData() = favoriteProductLocalDataSource.getFavoriteProductsLiveData()
+    suspend fun getAllFavoriteProducts() = favoriteProductLocalDataSource.getAllFavoriteProducts()
 
     suspend fun getFavoriteProductFromId(id: Int) =
         favoriteProductLocalDataSource.getFavoriteProductFromId(id)

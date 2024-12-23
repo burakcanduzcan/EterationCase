@@ -29,4 +29,13 @@
             android:name="productUiModel"
             app:argType="com.burakcanduzcan.eterationnativedevelopmentstudycase.model.ProductUiModel" />
     </fragment>
+    <fragment
+        android:id="@+id/navigation_favorites"
+        android:name="com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.favorites.FavoritesFragment"
+        android:label="@string/favorites"
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/action_navigation_favorites_to_navigation_product_detail"
+            app:destination="@id/navigation_product_detail" />
+    </fragment>
 </navigation>

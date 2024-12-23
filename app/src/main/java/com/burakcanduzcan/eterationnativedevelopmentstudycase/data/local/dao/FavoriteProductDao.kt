@@ -1,6 +1,5 @@
 package com.burakcanduzcan.eterationnativedevelopmentstudycase.data.local.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -10,7 +9,7 @@ import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.local.entity.
 @Dao
 interface FavoriteProductDao {
     @Query("SELECT * FROM FavoriteProductEntity")
-    fun getFavoriteProductsLiveData(): LiveData<List<FavoriteProductEntity>>
+    suspend fun getAllFavoriteProducts(): List<FavoriteProductEntity>
 
     @Query("SELECT * FROM FavoriteProductEntity WHERE id = :id")
     suspend fun getFavoriteProductFromId(id: Int): FavoriteProductEntity?

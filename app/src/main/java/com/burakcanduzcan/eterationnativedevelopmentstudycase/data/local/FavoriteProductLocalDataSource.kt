@@ -7,7 +7,7 @@ import javax.inject.Inject
 class FavoriteProductLocalDataSource @Inject constructor(
     private val favoriteProductDao: FavoriteProductDao
 ) {
-    fun getFavoriteProductsLiveData() = favoriteProductDao.getFavoriteProductsLiveData()
+    suspend fun getAllFavoriteProducts() = favoriteProductDao.getAllFavoriteProducts()
 
     suspend fun getFavoriteProductFromId(id: Int) = favoriteProductDao.getFavoriteProductFromId(id)
 

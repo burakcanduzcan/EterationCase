@@ -11,4 +11,9 @@
         android:icon="@drawable/outline_shopping_basket_24"
         android:title="" />
 
+    <item
+        android:id="@+id/navigation_favorites"
+        android:icon="@drawable/star_image"
+        android:title="" />
+
 </menu>
