@@ -1,5 +1,6 @@
 package com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.basket
 
+import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -53,11 +54,22 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
             Timber.d("Basket products: $products")
             basketAdapter.submitList(products)
             viewModel.calculateTotalValue()
+            viewModel.setBasketEmpty(products.isEmpty())
         }
 
         viewModel.totalValue.observe(viewLifecycleOwner) { totalValue ->
             Timber.d("Total value: $totalValue")
             binding.tvPrice.text = totalValue.toString().removeSuffix(".0") + " ₺"
+        }
+
+        viewModel.isBasketEmpty.observe(viewLifecycleOwner) { isEmpty ->
+            if (isEmpty) {
+                binding.rvBasket.visibility = View.GONE
+                binding.tvEmptyState.visibility = View.VISIBLE
+            } else {
+                binding.rvBasket.visibility = View.VISIBLE
+                binding.tvEmptyState.visibility = View.GONE
+            }
         }
     }
 }

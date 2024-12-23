@@ -15,8 +15,11 @@ class BasketViewModel @Inject constructor(
     val basketProducts: LiveData<List<BasketProductEntity>> =
         productRepository.getBasketProductsLiveData()
 
-    private val _totalValue = MutableLiveData<Double>(0.0)
+    private val _totalValue = MutableLiveData(0.0)
     val totalValue: LiveData<Double> = _totalValue
+
+    private val _isBasketEmpty = MutableLiveData<Boolean>()
+    val isBasketEmpty: LiveData<Boolean> = _isBasketEmpty
 
     suspend fun addToCart(basketProduct: BasketProductEntity) {
         productRepository.updateBasketProduct(basketProduct.copy(basketQuantity = basketProduct.basketQuantity + 1))
@@ -32,5 +35,9 @@ class BasketViewModel @Inject constructor(
 
     fun calculateTotalValue() {
         _totalValue.value = basketProducts.value!!.sumOf { it.price.toDouble() * it.basketQuantity }
+    }
+
+    fun setBasketEmpty(isEmpty: Boolean) {
+        _isBasketEmpty.value = isEmpty
     }
 }
