@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            tools:text="Samsung S22" />
+
+        <TextView
+            android:id="@+id/tv_product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#2979FF"
+            android:textSize="14sp"
+            tools:text="12.000₺" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_reduce"
+            style="@null"
+            android:layout_width="53dp"
+            android:layout_height="53dp"
+            android:backgroundTint="#E0E0E0"
+            android:text="@string/minus_symbol"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_product_quantity"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="#2979FF"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            tools:text="2" />
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="53dp"
+            android:layout_height="53dp"
+            android:backgroundTint="#E0E0E0"
+            android:text="@string/plus_symbol"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+    </LinearLayout>
+</LinearLayout>

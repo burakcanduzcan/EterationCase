@@ -7,4 +7,7 @@
     <string name="select_filter">Select Filter</string>
     <string name="add_to_cart">Add to Cart</string>
     <string name="no_items_available">No items available</string>
+    <string name="minus_symbol">-</string>
+    <string name="plus_symbol">+</string>
+    <string name="complete">Complete\n</string>
 </resources>

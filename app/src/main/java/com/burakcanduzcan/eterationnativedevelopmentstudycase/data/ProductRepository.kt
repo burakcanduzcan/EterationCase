@@ -11,7 +11,7 @@ class ProductRepository @Inject constructor(
 ) {
     suspend fun fetchProducts() = productRemoteDataSource.fetchProducts()
 
-    suspend fun getAllBasketProducts() = basketProductLocalDataSource.getAll()
+    fun getBasketProductsLiveData() = basketProductLocalDataSource.getBasketProductsLiveData()
 
     suspend fun getBasketProductFromId(id: Int) =
         basketProductLocalDataSource.getBasketProductFromId(id)
