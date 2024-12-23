@@ -2,16 +2,19 @@ package com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.R
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.databinding.ItemProductBinding
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.model.ProductUiModel
 
 class ProductAdapter(
     private val onProductClicked: (ProductUiModel) -> Unit,
-    private val onAddToCartClicked: (ProductUiModel) -> Unit
+    private val onAddToCartClicked: (ProductUiModel) -> Unit,
+    private val onFavoriteButtonClicked: (ProductUiModel) -> Unit
 ) : ListAdapter<ProductUiModel, ProductAdapter.ProductViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -32,6 +35,20 @@ class ProductAdapter(
         fun bind(uiModel: ProductUiModel) {
             binding.clProduct.setOnClickListener {
                 onProductClicked(uiModel)
+            }
+
+            if (uiModel.isFavorite) {
+                binding.ivFavoriteButton.setColorFilter(
+                    ContextCompat.getColor(binding.ivFavoriteButton.context, R.color.yellow)
+                )
+            } else {
+                binding.ivFavoriteButton.setColorFilter(
+                    ContextCompat.getColor(binding.ivFavoriteButton.context, R.color.gray)
+                )
+            }
+
+            binding.ivFavoriteButton.setOnClickListener {
+                onFavoriteButtonClicked(uiModel)
             }
 
             binding.tvProductName.text = uiModel.name
