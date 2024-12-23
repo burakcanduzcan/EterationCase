@@ -1,6 +1,5 @@
 package com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.product_detail
 
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
