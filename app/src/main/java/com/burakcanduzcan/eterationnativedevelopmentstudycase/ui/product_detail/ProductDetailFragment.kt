@@ -1,12 +1,14 @@
 package com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.product_detail
 
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.core.BaseFragment
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.databinding.FragmentProductDetailBinding
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.MainActivity
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,6 +19,7 @@ class ProductDetailFragment :
     BaseFragment<FragmentProductDetailBinding>(FragmentProductDetailBinding::inflate) {
 
     override val viewModel: ProductDetailViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun initUi() {
         viewModel.setProduct(arguments?.getParcelable("product"))
@@ -43,11 +46,7 @@ class ProductDetailFragment :
                     lifecycleScope.launch(Dispatchers.Default) {
                         viewModel.addToCart(product)
                         withContext(Dispatchers.Main) {
-                            Toast.makeText(
-                                this@ProductDetailFragment.context,
-                                "Product added to basket!",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            sharedViewModel.updateBasketCount(1)
                         }
                     }
                 }

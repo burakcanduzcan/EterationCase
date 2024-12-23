@@ -7,6 +7,8 @@ class BasketProductLocalDataSource @Inject constructor(private val basketProduct
 
     suspend fun getBasketProductFromId(id: Int) = basketProductDao.getBasketProductFromId(id)
 
+    suspend fun getBasketProductSize() = basketProductDao.getBasketProductSize()
+
     suspend fun insert(basketProductEntity: BasketProductEntity) =
         basketProductDao.insert(basketProductEntity)
 

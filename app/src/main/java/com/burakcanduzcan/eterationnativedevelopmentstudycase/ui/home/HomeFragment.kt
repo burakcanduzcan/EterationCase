@@ -3,6 +3,7 @@ package com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.home
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -11,6 +12,7 @@ import com.burakcanduzcan.eterationnativedevelopmentstudycase.R
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.core.BaseFragment
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.databinding.FragmentHomeBinding
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.model.ProductUiModel
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,6 +23,7 @@ import timber.log.Timber
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 
     override val viewModel: HomeViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var productAdapter: ProductAdapter
 
     override fun initUi() {
@@ -39,11 +42,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 lifecycleScope.launch(Dispatchers.Default) {
                     viewModel.addToCart(product)
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(
-                            this@HomeFragment.context,
-                            "Product added to basket!",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        sharedViewModel.updateBasketCount(1)
                     }
                 }
             }

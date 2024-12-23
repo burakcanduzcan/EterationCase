@@ -1,6 +1,7 @@
 package com.burakcanduzcan.eterationnativedevelopmentstudycase.ui
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -9,12 +10,15 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.R
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.databinding.ActivityMainBinding
+import com.google.android.material.badge.BadgeDrawable
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val sharedViewModel: SharedViewModel by viewModels()
+    private var badge: BadgeDrawable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +30,18 @@ class MainActivity : AppCompatActivity() {
             .findNavController()
         setupAppBar(navController)
         setupNavigationComponent(navController)
+        setupBasketBadge()
+
+        sharedViewModel.basketCount.observe(this) { count ->
+            if (count > 0) {
+                badge?.apply {
+                    isVisible = true
+                    number = count
+                }
+            } else {
+                badge?.isVisible = false
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -44,6 +60,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupNavigationComponent(navController: NavController) {
         binding.navView.setupWithNavController(navController)
+    }
+
+    private fun setupBasketBadge() {
+        val bottomNavigationView = binding.navView
+        badge = bottomNavigationView.getOrCreateBadge(R.id.navigation_basket).apply {
+            isVisible = false
+            backgroundColor = getColor(R.color.red)
+            badgeTextColor = getColor(android.R.color.white)
+        }
     }
 
     fun setAppBarTitle(title: String) {

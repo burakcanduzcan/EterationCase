@@ -15,6 +15,9 @@ interface BasketProductDao {
     @Query("SELECT * FROM BasketProductEntity WHERE id = :id")
     suspend fun getBasketProductFromId(id: Int): BasketProductEntity?
 
+    @Query("SELECT SUM(basketQuantity) FROM BasketProductEntity")
+    suspend fun getBasketProductSize(): Int
+
     @Insert
     suspend fun insert(basketProductEntity: BasketProductEntity)
 

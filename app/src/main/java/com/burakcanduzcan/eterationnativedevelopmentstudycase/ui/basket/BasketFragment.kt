@@ -1,19 +1,23 @@
 package com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.basket
 
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.core.BaseFragment
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.databinding.FragmentBasketBinding
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 @AndroidEntryPoint
 class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding::inflate) {
 
     override val viewModel: BasketViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var basketAdapter: BasketAdapter
 
     override fun initUi() {
@@ -21,11 +25,17 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
             onProductAddClicked = {
                 lifecycleScope.launch(Dispatchers.Default) {
                     viewModel.addToCart(it)
+                    withContext(Dispatchers.Main) {
+                        sharedViewModel.updateBasketCount(1)
+                    }
                 }
             },
             onProductRemoveClicked = {
                 lifecycleScope.launch(Dispatchers.Default) {
                     viewModel.removeFromCart(it)
+                    withContext(Dispatchers.Main) {
+                        sharedViewModel.updateBasketCount(-1)
+                    }
                 }
             })
 
