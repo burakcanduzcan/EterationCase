@@ -2,6 +2,7 @@ package com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.home
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -57,6 +58,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     override fun initListeners() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let {
+                    viewModel.searchProducts(it)
+                }
+                return true
+            }
+        })
     }
 
     override fun initObservables() {
@@ -73,6 +86,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 binding.rvProducts.visibility = View.VISIBLE
                 binding.tvEmptyState.visibility = View.GONE
             }
+        }
+
+        viewModel.filteredProducts.observe(viewLifecycleOwner) { products ->
+            Timber.d("Filtered Products: $products")
+            productAdapter.submitList(products)
         }
     }
 }

@@ -23,6 +23,9 @@ class HomeViewModel @Inject constructor(
     private val _products = MutableLiveData<List<ProductUiModel>>()
     val products: LiveData<List<ProductUiModel>> = _products
 
+    private val _filteredProducts = MutableLiveData<List<ProductUiModel>>()
+    val filteredProducts: LiveData<List<ProductUiModel>> = _filteredProducts
+
     init {
         viewModelScope.launch {
             try {
@@ -41,6 +44,7 @@ class HomeViewModel @Inject constructor(
                                 description = productResponseModel.description
                             )
                         }
+                        _filteredProducts.value = _products.value
                     }
                 }
             } catch (e: Exception) {
@@ -59,5 +63,11 @@ class HomeViewModel @Inject constructor(
                 productRepository.insertBasketProduct(product.toBasketProductEntity(1))
             }
         }
+    }
+
+    fun searchProducts(query: String) {
+        val filteredList =
+            _products.value?.filter { it.name.contains(query, ignoreCase = true) } ?: emptyList()
+        _filteredProducts.value = filteredList
     }
 }
