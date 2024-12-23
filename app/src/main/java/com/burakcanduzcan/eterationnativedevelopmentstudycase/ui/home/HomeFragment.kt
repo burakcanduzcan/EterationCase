@@ -27,6 +27,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private lateinit var productAdapter: ProductAdapter
 
     override fun initUi() {
+        binding.searchView.queryHint = getString(R.string.search)
+
         productAdapter = ProductAdapter(
             onProductClicked = { product: ProductUiModel ->
                 safeClick {
