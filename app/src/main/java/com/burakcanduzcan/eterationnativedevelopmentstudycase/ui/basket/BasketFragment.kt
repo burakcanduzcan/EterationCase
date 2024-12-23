@@ -5,8 +5,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.R
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.core.BaseFragment
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.databinding.FragmentBasketBinding
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.MainActivity
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +24,8 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
     private lateinit var basketAdapter: BasketAdapter
 
     override fun initUi() {
+        (activity as? MainActivity)?.setAppBarTitle(getString(R.string.title_home))
+
         basketAdapter = BasketAdapter(
             onProductAddClicked = {
                 lifecycleScope.launch(Dispatchers.Default) {
