@@ -35,7 +35,7 @@ class ProductAdapter(
             }
 
             binding.tvProductName.text = uiModel.name
-            binding.tvProductPrice.text = uiModel.price
+            binding.tvProductPrice.text = uiModel.price.removeSuffix(".00") + " ₺"
             Glide.with(binding.ivProductImage.context)
                 .load(uiModel.imageUrl)
                 .into(binding.ivProductImage)
