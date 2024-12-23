@@ -1,9 +1,11 @@
 package com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.product_detail
 
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.R
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.core.BaseFragment
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.databinding.FragmentProductDetailBinding
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.ui.MainActivity
@@ -21,7 +23,16 @@ class ProductDetailFragment :
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun initUi() {
-        viewModel.setProduct(arguments?.getParcelable("product"))
+        lifecycleScope.launch(Dispatchers.Main) {
+            viewModel.setProduct(arguments?.getParcelable("product"))
+            withContext(Dispatchers.Default) {
+                if (viewModel.isProductInFavorite()) {
+                    binding.ivStar.setColorFilter(
+                        ContextCompat.getColor(requireContext(), R.color.yellow)
+                    )
+                }
+            }
+        }
     }
 
     override fun initListeners() {
@@ -36,6 +47,24 @@ class ProductDetailFragment :
                     .with(this)
                     .load(product.imageUrl)
                     .into(binding.ivProductImage)
+
+                binding.ivStar.setOnClickListener {
+                    safeClick {
+                        lifecycleScope.launch(Dispatchers.Default) {
+                            if (viewModel.isProductInFavorite()) {
+                                viewModel.removeFromFavorite(product)
+                                binding.ivStar.setColorFilter(
+                                    ContextCompat.getColor(requireContext(), R.color.gray)
+                                )
+                            } else {
+                                viewModel.addToFavorite(product)
+                                binding.ivStar.setColorFilter(
+                                    ContextCompat.getColor(requireContext(), R.color.yellow)
+                                )
+                            }
+                        }
+                    }
+                }
 
                 binding.tvTitle.text = product.name
                 binding.tvDescription.text = product.description

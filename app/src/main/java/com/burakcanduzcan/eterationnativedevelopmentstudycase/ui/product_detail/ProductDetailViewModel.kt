@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.ProductRepository
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.model.ProductUiModel
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.util.Mappers.toBasketProductEntity
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.util.Mappers.toFavoriteProductEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -31,5 +32,16 @@ class ProductDetailViewModel @Inject constructor(
                 productRepository.insertBasketProduct(product.toBasketProductEntity(1))
             }
         }
+    }
+
+    suspend fun isProductInFavorite(): Boolean =
+        productRepository.getFavoriteProductFromId(product.value!!.id) != null
+
+    suspend fun addToFavorite(product: ProductUiModel) {
+        productRepository.insertFavoriteProduct(product.toFavoriteProductEntity())
+    }
+
+    suspend fun removeFromFavorite(product: ProductUiModel) {
+        productRepository.deleteFavoriteProduct(product.toFavoriteProductEntity())
     }
 }
