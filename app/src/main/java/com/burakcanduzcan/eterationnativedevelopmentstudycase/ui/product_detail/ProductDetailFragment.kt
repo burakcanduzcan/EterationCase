@@ -68,7 +68,11 @@ class ProductDetailFragment :
 
                 binding.tvTitle.text = product.name
                 binding.tvDescription.text = product.description
-                binding.tvPrice.text = product.price.removeSuffix(".00") + " ₺"
+                binding.tvPrice.text = binding.root.context.getString(
+                    R.string.price_format,
+                    product.price.removeSuffix(".00"),
+                    binding.root.context.getString(R.string.currency_symbol)
+                )
 
                 binding.btnAddToCart.setOnClickListener {
                     safeClick {

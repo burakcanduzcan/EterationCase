@@ -67,7 +67,11 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
 
         viewModel.totalValue.observe(viewLifecycleOwner) { totalValue ->
             Timber.d("Total value: $totalValue")
-            binding.tvPrice.text = totalValue.toString().removeSuffix(".0") + " ₺"
+            binding.tvPrice.text = binding.root.context.getString(
+                R.string.price_format,
+                totalValue.toString().removeSuffix(".0"),
+                binding.root.context.getString(R.string.currency_symbol)
+            )
         }
 
         viewModel.isBasketEmpty.observe(viewLifecycleOwner) { isEmpty ->

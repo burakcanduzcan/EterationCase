@@ -25,7 +25,7 @@ class FavoritesViewModel @Inject constructor(
     suspend fun refreshList() {
         val favoriteList = productRepository.getAllFavoriteProducts()
 
-        if (favoriteList.isNullOrEmpty()) {
+        if (favoriteList.isEmpty()) {
             _isFavoriteListEmpty.postValue(true)
         } else {
             _isFavoriteListEmpty.postValue(false)

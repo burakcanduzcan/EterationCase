@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.R
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.local.entity.BasketProductEntity
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.databinding.ItemBasketBinding
 
@@ -32,7 +33,11 @@ class BasketAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(uiModel: BasketProductEntity) {
             binding.tvProductName.text = uiModel.name
-            binding.tvProductPrice.text = uiModel.price.removeSuffix(".00") + " ₺"
+            binding.tvProductPrice.text = binding.root.context.getString(
+                R.string.price_format,
+                uiModel.price.removeSuffix(".00"),
+                binding.root.context.getString(R.string.currency_symbol)
+            )
             binding.tvProductQuantity.text = uiModel.basketQuantity.toString()
             binding.btnAdd.setOnClickListener {
                 onProductAddClicked(uiModel)
