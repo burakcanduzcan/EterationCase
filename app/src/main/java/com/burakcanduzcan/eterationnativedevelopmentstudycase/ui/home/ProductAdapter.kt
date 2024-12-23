@@ -48,6 +48,15 @@ class ProductAdapter(
             }
 
             binding.ivFavoriteButton.setOnClickListener {
+                if (uiModel.isFavorite) {
+                    binding.ivFavoriteButton.setColorFilter(
+                        ContextCompat.getColor(binding.ivFavoriteButton.context, R.color.gray)
+                    )
+                } else {
+                    binding.ivFavoriteButton.setColorFilter(
+                        ContextCompat.getColor(binding.ivFavoriteButton.context, R.color.yellow)
+                    )
+                }
                 onFavoriteButtonClicked(uiModel)
             }
 

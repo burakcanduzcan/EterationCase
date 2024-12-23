@@ -14,6 +14,6 @@
     <string name="product_image">Product image</string>
     <string name="favorite_button">Favorite button</string>
     <string name="search">Search</string>
-    <string name="no_favorite_items">No item has been favorite yet</string>
+    <string name="no_favorite_items">No item has been favorited yet</string>
     <string name="favorites">Favorites</string>
 </resources>

@@ -51,6 +51,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         }
                     }
                 }
+            },
+            onFavoriteButtonClicked = {
+                safeClick {
+                    lifecycleScope.launch(Dispatchers.Default) {
+                        if (viewModel.isItemInFavorite(it.id)) {
+                            viewModel.removeFromFavorite(it)
+                        } else {
+
+                            viewModel.addToFavorite(it)
+                        }
+                    }
+                }
             }
         )
         binding.rvProducts.apply {

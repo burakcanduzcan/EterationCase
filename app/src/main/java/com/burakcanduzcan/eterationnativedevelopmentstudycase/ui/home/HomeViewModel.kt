@@ -7,8 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.data.ProductRepository
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.model.ProductUiModel
 import com.burakcanduzcan.eterationnativedevelopmentstudycase.util.Mappers.toBasketProductEntity
+import com.burakcanduzcan.eterationnativedevelopmentstudycase.util.Mappers.toFavoriteProductEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -28,6 +31,8 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            val favoriteList = productRepository.getAllFavoriteProducts()
+
             try {
                 productRepository.fetchProducts().body().let {
                     Timber.d("Received body: $it")
@@ -35,16 +40,22 @@ class HomeViewModel @Inject constructor(
                         _isRemoteListEmpty.postValue(true)
                     } else {
                         _isRemoteListEmpty.postValue(false)
-                        _products.value = it.map { productResponseModel ->
-                            ProductUiModel(
-                                id = productResponseModel.id.toInt(),
-                                name = productResponseModel.name,
-                                imageUrl = productResponseModel.image,
-                                price = productResponseModel.price,
-                                description = productResponseModel.description
-                            )
+
+                        withContext(Dispatchers.Main) {
+                            _products.value = it.map { productResponseModel ->
+                                ProductUiModel(
+                                    id = productResponseModel.id.toInt(),
+                                    name = productResponseModel.name,
+                                    imageUrl = productResponseModel.image,
+                                    price = productResponseModel.price,
+                                    description = productResponseModel.description,
+                                    isFavorite = favoriteList.any { favoriteProductEntity ->
+                                        favoriteProductEntity.id == productResponseModel.id.toInt()
+                                    }
+                                )
+                            }
+                            _filteredProducts.value = _products.value
                         }
-                        _filteredProducts.value = _products.value
                     }
                 }
             } catch (e: Exception) {
@@ -52,6 +63,24 @@ class HomeViewModel @Inject constructor(
                 _isRemoteListEmpty.postValue(true)
             }
         }
+    }
+
+    private suspend fun refreshList() {
+        val favoriteList = productRepository.getAllFavoriteProducts()
+
+        _products.postValue(
+            _products.value?.map { item ->
+                ProductUiModel(
+                    id = item.id,
+                    name = item.name,
+                    imageUrl = item.imageUrl,
+                    price = item.price,
+                    description = item.description,
+                    isFavorite = favoriteList.any { it.id == item.id }
+                )
+            }
+        )
+        _filteredProducts.postValue(_products.value)
     }
 
     suspend fun addToCart(product: ProductUiModel) {
@@ -69,5 +98,19 @@ class HomeViewModel @Inject constructor(
         val filteredList =
             _products.value?.filter { it.name.contains(query, ignoreCase = true) } ?: emptyList()
         _filteredProducts.value = filteredList
+    }
+
+    suspend fun isItemInFavorite(id: Int): Boolean {
+        return productRepository.getFavoriteProductFromId(id) != null
+    }
+
+    suspend fun addToFavorite(product: ProductUiModel) {
+        productRepository.insertFavoriteProduct(product.toFavoriteProductEntity())
+        refreshList()
+    }
+
+    suspend fun removeFromFavorite(it: ProductUiModel) {
+        productRepository.deleteFavoriteProduct(it.toFavoriteProductEntity())
+        refreshList()
     }
 }
