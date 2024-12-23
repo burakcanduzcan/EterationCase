@@ -32,7 +32,7 @@
             android:src="@drawable/star_image"
             app:layout_constraintEnd_toEndOf="@id/iv_product_image"
             app:layout_constraintTop_toTopOf="@id/iv_product_image"
-            app:tint="@color/black" />
+            app:tint="@color/gray" />
 
         <TextView
             android:id="@+id/tv_product_price"
