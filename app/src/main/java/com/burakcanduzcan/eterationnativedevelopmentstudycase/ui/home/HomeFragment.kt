@@ -29,6 +29,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     override fun initUi() {
         binding.searchView.queryHint = getString(R.string.search)
 
+        binding.btnFilter.setOnClickListener {
+            val bottomSheet = FilterBottomSheet(viewModel)
+            bottomSheet.show(parentFragmentManager, bottomSheet.tag)
+        }
+
         productAdapter = ProductAdapter(
             onProductClicked = { product: ProductUiModel ->
                 safeClick {

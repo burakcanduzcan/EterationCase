@@ -10,5 +10,6 @@ data class ProductUiModel(
     val imageUrl: String,
     val price: String,
     val description: String,
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean = false,
+    val dateCreated: String
 ) : Parcelable

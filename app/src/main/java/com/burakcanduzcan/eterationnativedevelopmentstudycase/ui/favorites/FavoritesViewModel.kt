@@ -37,7 +37,8 @@ class FavoritesViewModel @Inject constructor(
                     imageUrl = it.imageUrl,
                     price = it.price,
                     description = it.description,
-                    isFavorite = true
+                    isFavorite = true,
+                    dateCreated = ""
                 )
             })
         }

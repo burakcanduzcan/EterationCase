@@ -16,4 +16,11 @@
     <string name="search">Search</string>
     <string name="no_favorite_items">No item has been favorited yet</string>
     <string name="favorites">Favorites</string>
+    <string name="currency_symbol">₺</string>
+    <string name="price_format">%1$s %2$s</string>
+    <string name="apply_filter">Apply Filter</string>
+    <string name="old_to_new">Old to new</string>
+    <string name="new_to_old">New to old</string>
+    <string name="price_high_to_low">Price high to low</string>
+    <string name="price_low_to_high">Price low to high</string>
 </resources>

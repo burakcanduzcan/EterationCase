@@ -51,7 +51,8 @@ class HomeViewModel @Inject constructor(
                                     description = productResponseModel.description,
                                     isFavorite = favoriteList.any { favoriteProductEntity ->
                                         favoriteProductEntity.id == productResponseModel.id.toInt()
-                                    }
+                                    },
+                                    dateCreated = productResponseModel.createdAt
                                 )
                             }
                             _filteredProducts.value = _products.value
@@ -76,7 +77,8 @@ class HomeViewModel @Inject constructor(
                     imageUrl = item.imageUrl,
                     price = item.price,
                     description = item.description,
-                    isFavorite = favoriteList.any { it.id == item.id }
+                    isFavorite = favoriteList.any { it.id == item.id },
+                    dateCreated = item.dateCreated
                 )
             }
         )
@@ -112,5 +114,23 @@ class HomeViewModel @Inject constructor(
     suspend fun removeFromFavorite(it: ProductUiModel) {
         productRepository.deleteFavoriteProduct(it.toFavoriteProductEntity())
         refreshList()
+    }
+
+    fun sortProductsByDate(isOldToNew: Boolean) {
+        val sortedList = if (isOldToNew) {
+            _products.value?.sortedBy { it.dateCreated }
+        } else {
+            _products.value?.sortedByDescending { it.dateCreated }
+        }
+        _filteredProducts.value = sortedList!!
+    }
+
+    fun sortProductsByPrice(isLowToHigh: Boolean) {
+        val sortedList = if (isLowToHigh) {
+            _products.value?.sortedBy { it.price.toDouble() }
+        } else {
+            _products.value?.sortedByDescending { it.price.toDouble() }
+        }
+        _filteredProducts.value = sortedList!!
     }
 }
